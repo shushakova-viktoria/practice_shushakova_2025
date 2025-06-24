@@ -404,3 +404,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Явно разрешаем ключевые файлы
+!*.sln
+!*.csproj
+!*.cs
+
