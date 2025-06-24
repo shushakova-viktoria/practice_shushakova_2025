@@ -15,13 +15,13 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Install dependencies
-        working-directory: practice2025
+        working-directory: practice2025/practice2025
         run: dotnet restore
   
       - name: Build solution
-        working-directory: practice2025
+        working-directory: practice2025/practice2025
         run: dotnet build --no-restore
   
       - name: Run tests
-        working-directory: practice2025
+        working-directory: practice2025/practice2025
         run: dotnet test --no-build
