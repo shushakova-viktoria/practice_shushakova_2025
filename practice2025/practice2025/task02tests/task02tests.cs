@@ -12,10 +12,10 @@ namespace task02tests
         {
             _testStudents = new List<Student>
         {
-            new() { Name = "Иван", Faculty = "ФИТ", Grades = new List<int> { 5, 4, 5 } },
-            new() { Name = "Анна", Faculty = "ФИТ", Grades = new List<int> { 3, 4, 3 } },
-            new() { Name = "Петр", Faculty = "Экономика", Grades = new List<int> { 5, 5, 5 } },
-            new() { Name = "Виктория", Faculty = "Экономика", Grades = new List<int> { 5, 4, 4 } }
+            new Student { Name = "Иван", Faculty = "ФИТ", Grades = new List<int> { 5, 4, 5 } },
+            new Student { Name = "Анна", Faculty = "ФИТ", Grades = new List<int> { 3, 4, 3 } },
+            new Student { Name = "Петр", Faculty = "Экономика", Grades = new List<int> { 5, 5, 5 } },
+            new Student { Name = "Виктория", Faculty = "Экономика", Grades = new List<int> { 5, 4, 4 } }
         };
             _service = new StudentService(_testStudents);
         }
