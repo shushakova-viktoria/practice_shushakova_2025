@@ -7,6 +7,8 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+
+	<NoWarn>0618;CS0169</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
