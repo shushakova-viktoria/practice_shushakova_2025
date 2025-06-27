@@ -23,10 +23,9 @@ namespace task05
         public IEnumerable<string> GetMethodParams(string methodname)
         {
             return _type
-               .GetMethod(methodname)?
+               .GetMethod(methodname)
                .GetParameters()
-               .Select(s => s.Name!)??
-            Enumerable.Empty<string>(); 
+               .Select(s => s.Name); 
         }
 
         public IEnumerable<string> GetAllFields()
