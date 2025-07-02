@@ -6,22 +6,27 @@ using static CommandLib.commandLib;
 
 namespace CommandRunner
 {
-    class Program
+    class CommandLoader
     {
         static void Main(string[] args)
         {
-            var currentCmd = new DirectorySizeCommand(".");
-            currentCmd.Execute();
-            Console.WriteLine($"Текущий каталог имеет размер: {currentCmd.totalSize}");
+            var dllFinder = Assembly.LoadFrom("FileSystemCommands.dll");
 
-            var findTxt = new FindFilesCommand(".", "*.txt");
-            findTxt.Execute();
-            Console.WriteLine("Найдены файлы:");
-            foreach (var file in Directory.GetFiles(findTxt.Outline, findTxt.SearchByMask))
+            foreach (Type type in dllFinder.GetTypes())
             {
-                Console.WriteLine($"Найден файл: {file}");
+                try
+                {
+                    var command = (ICommand)Activator.CreateInstance(type, new[] { "." });
+                    command.Execute();
+                }
+                catch
+                {
+                    var command = (ICommand)Activator.CreateInstance(type, new[] { ".", "*.txt" });
+                    command.Execute();
+                }
             }
+
         }
+
     }
-    
 }
