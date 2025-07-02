@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using static task07.task07;
 
 namespace task07
 {
@@ -40,41 +41,40 @@ namespace task07
             
         }
 
-        public static class ReflectionHelper
+    }
+    public static class ReflectionHelper
+    {
+        public static void PrintTypeInfo(Type type)
         {
-            public static void PrintTypeInfo(Type type)
+            var className = type.GetCustomAttribute<DisplayNameAttribute>();
+            if (className != null)
             {
-                var className = type.GetCustomAttribute<DisplayNameAttribute>();
-                if (className != null)
-                {
-                    Console.WriteLine($"Имя класса: {className.DisplayName}");
-                } 
-                
-                var classVersion = type.GetCustomAttribute<VersionAttribute>();
-                if (classVersion != null)
-                {
-                    Console.WriteLine($"Версия класса: {classVersion.Major}.{classVersion.Minor}");
-                }
+                Console.WriteLine($"Имя класса: {className.DisplayName}");
+            }
 
-                foreach (var method in type.GetMethods())
-                {
-                    var listMethods = method.GetCustomAttribute<DisplayNameAttribute>();
-                    if (listMethods != null)
-                    {
-                        Console.WriteLine($"Cписок методов с их DisplayName - {method.Name} : {listMethods.DisplayName}");
-                    }
-                }
+            var classVersion = type.GetCustomAttribute<VersionAttribute>();
+            if (classVersion != null)
+            {
+                Console.WriteLine($"Версия класса: {classVersion.Major}.{classVersion.Minor}");
+            }
 
-                foreach (var properties in type.GetProperties())
+            foreach (var method in type.GetMethods())
+            {
+                var listMethods = method.GetCustomAttribute<DisplayNameAttribute>();
+                if (listMethods != null)
                 {
-                    var listProperties = properties.GetCustomAttribute<DisplayNameAttribute>();
-                    if (listProperties != null)
-                    {
-                        Console.WriteLine($"Список свойств с их DisplayName - {properties.Name} : {listProperties.DisplayName}");
-                    }
+                    Console.WriteLine($"Cписок методов с их DisplayName - {method.Name} : {listMethods.DisplayName}");
+                }
+            }
+
+            foreach (var properties in type.GetProperties())
+            {
+                var listProperties = properties.GetCustomAttribute<DisplayNameAttribute>();
+                if (listProperties != null)
+                {
+                    Console.WriteLine($"Список свойств с их DisplayName - {properties.Name} : {listProperties.DisplayName}");
                 }
             }
         }
-
     }
 }
