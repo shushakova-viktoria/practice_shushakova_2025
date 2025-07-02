@@ -1,4 +1,4 @@
-using FileSystemCommands;
+п»їusing FileSystemCommands;
 using System.IO;
 using Xunit;
 using CommandLib;
@@ -19,7 +19,7 @@ namespace task08tests
                 File.WriteAllText(Path.Combine(testDir, "test2.txt"), "World");
 
                 var command = new DirectorySizeCommand(testDir);
-                command.Execute(); // Проверяем, что не возникает исключений
+                command.Execute(); // РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РЅРµ РІРѕР·РЅРёРєР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёР№
 
                 Assert.True(command.totalSize > 0);
 
@@ -35,7 +35,7 @@ namespace task08tests
                 File.WriteAllText(Path.Combine(testDir, "file2.log"), "Log");
 
                 var command = new FindFilesCommand(testDir, "*.txt");
-                command.Execute(); // Должен найти 1 файл
+                command.Execute(); // Р”РѕР»Р¶РµРЅ РЅР°Р№С‚Рё 1 С„Р°Р№Р»
 
                 var foundFiles = Directory.GetFiles(testDir, "*.txt");
                 Assert.NotEmpty(foundFiles);
