@@ -70,7 +70,7 @@ namespace task07
                     var listProperties = properties.GetCustomAttribute<DisplayNameAttribute>();
                     if (listProperties != null)
                     {
-                        Console.WriteLine($"Список свойств с их DisplayName: {properties.Name} - {listProperties.DisplayName}");
+                        Console.WriteLine($"Список свойств с их DisplayName - {properties.Name} : {listProperties.DisplayName}");
                     }
                 }
             }
