@@ -43,5 +43,19 @@ namespace task07tests
             Assert.Equal(1, attribute.Major);
             Assert.Equal(0, attribute.Minor);
         }
+
+        [Fact]
+        public void ReflectionHelper()
+        {
+            var stringWriter = new StringWriter();
+            Console.SetOut(stringWriter);
+            var typeOf = typeof(SampleClass);
+        
+            ReflectionHelper.PrintTypeInfo(typeOf);
+            var result = stringWriter.ToString();
+        
+            Assert.Contains("Пример класса", result);
+        
+        }
     }
 }
