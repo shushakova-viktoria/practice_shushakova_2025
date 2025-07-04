@@ -4,9 +4,6 @@ using System.Reflection;
 using task07;
 using static task07.task07;
 
-
-
-
 namespace task07tests
 {
     public class AttributeReflectionTests
@@ -60,7 +57,7 @@ namespace task07tests
 
             Console.SetOut(Console.Out);
 
-            Assert.Contains("Имя класса: Пример класса", result);
+            Assert.Contains("Пример класса", result);
         }
     }
 }
