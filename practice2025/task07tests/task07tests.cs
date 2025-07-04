@@ -1,5 +1,9 @@
-﻿using System.Reflection;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using task07;
 using static task07.task07;
+
 
 
 
@@ -48,15 +52,15 @@ namespace task07tests
         public void ReflectionHelperTest()
         {
             var stringWriter = new StringWriter();
-            Console.SetOut(stringWriter);
-            var typeOf = typeof(SampleClass);
-        
-            ReflectionHelper.PrintTypeInfo(typeOf);
+            Console.SetOut(stringWriter); 
+
+            var type = typeof(SampleClass);
+            ReflectionHelper.PrintTypeInfo(type);
             var result = stringWriter.ToString();
-             Console.SetOut(Console.Out);
-        
-            Assert.Contains("Пример класса", result);
-        
+
+            Console.SetOut(Console.Out);
+
+            Assert.Contains("Имя класса: Пример класса", result);
         }
     }
 }
