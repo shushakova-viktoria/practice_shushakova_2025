@@ -45,7 +45,7 @@ namespace task07tests
         }
 
         [Fact]
-        public void ReflectionHelper()
+        public void ReflectionHelperTest()
         {
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
