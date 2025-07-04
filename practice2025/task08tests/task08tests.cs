@@ -2,7 +2,7 @@
 using System.IO;
 using Xunit;
 using CommandLib;
-using static CommandLib.commandLib;
+using CommandRunner;
 
 namespace task08tests
 {
@@ -42,6 +42,17 @@ namespace task08tests
                 Assert.Single(foundFiles);
 
                 Directory.Delete(testDir, true);
+            }
+
+            [Fact]
+            public void TestForCommandRunner()
+            {
+                string path = "FileSystemCommands.dll";
+                Console.SetOut(new StringWriter());
+
+                CommandRun.Main([path]);
+
+                Console.SetOut(Console.Out);
             }
         }
     }

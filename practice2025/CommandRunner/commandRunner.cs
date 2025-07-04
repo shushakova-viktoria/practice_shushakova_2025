@@ -6,9 +6,9 @@ using static CommandLib.commandLib;
 
 namespace CommandRunner
 {
-    class CommandLoader
+    public static class CommandRun
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var dllFinder = Assembly.LoadFrom("FileSystemCommands.dll");
 
