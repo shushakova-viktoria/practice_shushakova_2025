@@ -53,6 +53,7 @@ namespace task07tests
         
             ReflectionHelper.PrintTypeInfo(typeOf);
             var result = stringWriter.ToString();
+             Console.SetOut(Console.Out);
         
             Assert.Contains("Пример класса", result);
         
