@@ -91,5 +91,4 @@ namespace task13tests
             Assert.True(desirialization);
         }
     }
-    
 }
