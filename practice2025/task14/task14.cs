@@ -56,7 +56,7 @@ namespace task14
                 t.Join();
             }
 
-            return results.Sum();
+            return Math.Round(results.Sum(), 2);
         }
 
         public static double SolveOneThread(double a, double b, Func<double, double> function, double step)
