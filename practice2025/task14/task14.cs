@@ -6,15 +6,13 @@ namespace task14
 {
     public class DefiniteIntegral
     {
-        public static double Solve(double a, double b, Func<double, double> function, double step, int threadsNumber)
+        public static double SolveManyThreads(double a, double b, Func<double, double> function, double step, int threadsNumber)
         {
             double[] results = new double[threadsNumber];
             Thread[] threads = new Thread[threadsNumber];
 
-            Barrier barrier = new Barrier(threadsNumber + 1);
-
             double countThreads = b - a;
-            double sizeOfPart = countThreads / threadsNumber;
+            double sizeOfPart = (countThreads) / threadsNumber;
 
             for (int i = 0; i < threadsNumber; i++)
             {
@@ -48,21 +46,34 @@ namespace task14
                     }
 
                     results[ind] = localSum;
-
-                    barrier.SignalAndWait();
                 });
 
                 threads[i].Start();
             }
 
-            barrier.SignalAndWait();
-
-            double total = 0.0;
-            foreach (var t in results)
+            foreach (Thread t in threads)
             {
-                total += t;
+                t.Join();
             }
-            return Math.Round(total, 2);
+
+            return results.Sum();
         }
+
+        public static double SolveOneThread(double a, double b, Func<double, double> function, double step)
+        {
+            double end = 0.0;
+            double x = a;
+
+            while (x < b)
+            {
+                double nowX = Math.Min(x + step, b);
+                end += (function(x) + function(nowX)) * (nowX - x) / 2;
+                x = nowX;
+            }
+
+            return end;
+        }
+
+
     }
 }
