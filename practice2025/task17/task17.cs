@@ -1,10 +1,72 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.ComponentModel.Design;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace task17
 {
+    public interface IScheduler
+    {
+        bool HasCommand();
+        ICommand Select();
+        void Add(ICommand cmd);
+    }
+    public interface InterfaceForLongCommand : ICommand
+    {
+        bool Completed { get; }
+    }
+
+    public class Scheduler : IScheduler
+    {
+        public List<InterfaceForLongCommand> commands = new List<InterfaceForLongCommand>();
+        int index = 0;
+
+        public void Add(ICommand cmd)
+        {
+            if (cmd is InterfaceForLongCommand longCommand)
+            {
+                commands.Add(longCommand);
+            }
+            else
+            {
+                cmd.Execute();
+            }
+        }
+
+        public bool HasCommand()
+        {
+            return commands.Count > 0;
+        }
+
+        public ICommand Select()
+        {
+            if (commands.Count == 0)
+                return null;
+
+            for (int i = 0; i < commands.Count; i++)
+            {
+                if (index >= commands.Count)
+                {
+                    index = 0;
+                }
+
+                var current = commands[index];
+
+                if (current.Completed)
+                {
+                    commands.RemoveAt(index);
+                    continue;
+                }
+
+                index = (index + 1) % commands.Count;
+                return current;
+            }
+
+            return null;
+        }
+
+    }
     public interface ICommand
     {
         void Execute();
@@ -12,14 +74,15 @@ namespace task17
 
     public class ServerThread
     {
+        public IScheduler Scheduler = new Scheduler();
         public ConcurrentQueue<ICommand> CommandQueue = new ConcurrentQueue<ICommand>();
         public bool hardStop = false;
         public bool softStop = false;
         public Thread thread;
 
-        public void Initialization()
+        public ServerThread(IScheduler scheduler)
         {
-            thread = new Thread(Working);
+            Scheduler = scheduler;
         }
 
         public void Start()
@@ -27,16 +90,9 @@ namespace task17
             thread.Start();
         }
 
-        public void ForQueue(ICommand command)
+        public void Adding(ICommand command)
         {
-            if (thread == null)
-            {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                CommandQueue.Enqueue(command);
-            }
+            Scheduler.Add(command);
         }
 
         public void HardStop()
@@ -61,22 +117,16 @@ namespace task17
         {
             while (!hardStop)
             {
-                if (CommandQueue.TryDequeue(out var command))
+                if (Scheduler.HasCommand())
                 {
+                    var comm = Scheduler.Select();
                     try
                     {
-                        command.Execute();
+                        comm.Execute();
                     }
-                    catch (Exception ex)
+                    catch(Exception)
                     {
-
-                    }
-                }
-                else
-                {
-                    if (softStop)
-                    {
-                        break;
+                        
                     }
                 }
             }
