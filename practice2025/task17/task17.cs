@@ -14,7 +14,7 @@ namespace task17
     }
     public interface InterfaceForLongCommand : ICommand
     {
-        bool Completed { get; }
+       new bool Completed { get; }
     }
 
     public class Scheduler : IScheduler
@@ -70,6 +70,21 @@ namespace task17
     public interface ICommand
     {
         void Execute();
+        bool Completed();
+    }
+    public class TestCommand(int id) : ICommand
+    {
+        int counter = 0;
+
+        public void Execute()
+        {
+            Console.WriteLine($"Поток {id} вызов {++counter}");
+        }
+
+        public bool Completed()
+        {
+            return counter >= 3;
+        }
     }
 
     public class ServerThread
@@ -83,6 +98,7 @@ namespace task17
         public ServerThread(IScheduler scheduler)
         {
             Scheduler = scheduler;
+            thread = new Thread(Working);
         }
 
         public void Start()
@@ -117,19 +133,20 @@ namespace task17
         {
             while (!hardStop)
             {
-                if (Scheduler.HasCommand())
+                var comm = Scheduler.Select();
+                if (comm != null)
                 {
-                    var comm = Scheduler.Select();
                     try
                     {
                         comm.Execute();
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
-                        
+
                     }
                 }
             }
+            return;
         }
     }
 
@@ -145,6 +162,11 @@ namespace task17
         {
             _serverThread.HardStop();
         }
+
+        public bool Completed()
+        {
+            return true;
+        }
     }
 
     public class SoftStop: ICommand
@@ -159,6 +181,10 @@ namespace task17
         {
             _serverThread.SoftStop();
         }
-    }
 
+        public bool Completed()
+        {
+            return true;
+        }
+    }
 }
