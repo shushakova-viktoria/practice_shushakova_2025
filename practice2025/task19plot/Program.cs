@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Concurrent;
 using System.ComponentModel.Design;
 using System.Threading;
@@ -31,16 +31,16 @@ class Program
             double[] yValues = Enumerable.Repeat((double)id, times.Count).ToArray();
 
             var scatter = plot.Add.Scatter(xValues, yValues);
-            scatter.LegendText = $"Команда {id}";
+            scatter.LegendText = $"РљРѕРјР°РЅРґР° {id}";
             scatter.MarkerSize = 8;
         }
 
-        plot.XLabel("Время выполнения (мс)");
-        plot.YLabel("ID команды");
-        plot.Title("Выполнение длительных команд");
+        plot.XLabel("Р’СЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ (РјСЃ)");
+        plot.YLabel("ID РєРѕРјР°РЅРґС‹");
+        plot.Title("Р’С‹РїРѕР»РЅРµРЅРёРµ РґР»РёС‚РµР»СЊРЅС‹С… РєРѕРјР°РЅРґ");
 
         plot.SavePng(path, 800, 600);
-        Console.WriteLine($"График сохранён: {path}");
+        Console.WriteLine($"Р“СЂР°С„РёРє СЃРѕС…СЂР°РЅС‘РЅ: {path}");
     }
 
 
@@ -102,12 +102,12 @@ class Program
 
             string resultText = $@"
 
-            Общее время выполнения команд: {totalTime:F2} мс
-            Общее количество вызовов Execute: {totalCalls}
-            Среднее время выполнения одной команды: {averageTime:F2} мс
+            РћР±С‰РµРµ РІСЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РєРѕРјР°РЅРґ: {totalTime:F2} РјСЃ
+            РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹Р·РѕРІРѕРІ Execute: {totalCalls}
+            РЎСЂРµРґРЅРµРµ РІСЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРґРЅРѕР№ РєРѕРјР°РЅРґС‹: {averageTime:F2} РјСЃ
 
-            Самая быстрая команда: {fastest.id} (время: {(fastest.times.Last() - fastest.times.First()).TotalMilliseconds:F2} мс)
-            Самая медленная команда: {slowest.id} (время: {(slowest.times.Last() - slowest.times.First()).TotalMilliseconds:F2} мс)
+            РЎР°РјР°СЏ Р±С‹СЃС‚СЂР°СЏ РєРѕРјР°РЅРґР°: {fastest.id} (РІСЂРµРјСЏ: {(fastest.times.Last() - fastest.times.First()).TotalMilliseconds:F2} РјСЃ)
+            РЎР°РјР°СЏ РјРµРґР»РµРЅРЅР°СЏ РєРѕРјР°РЅРґР°: {slowest.id} (РІСЂРµРјСЏ: {(slowest.times.Last() - slowest.times.First()).TotalMilliseconds:F2} РјСЃ)
             ";
             string path = @"C:\Users\vashu\practice_shushakova_2025\practice2025\results.txt";
             File.WriteAllText(path, resultText);
