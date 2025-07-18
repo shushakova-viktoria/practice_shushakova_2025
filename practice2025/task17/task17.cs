@@ -24,9 +24,9 @@ namespace task17
 
         public void Add(ICommand cmd)
         {
-            if (cmd is InterfaceForLongCommand longCommand)
+            if (cmd is InterfaceForLongCommand longCmd)
             {
-                commands.Add(longCommand);
+                commands.Add(longCmd);
             }
             else
             {
@@ -72,19 +72,22 @@ namespace task17
         void Execute();
         bool Completed();
     }
-    public class TestCommand(int id) : ICommand
+    public class TestCommand : InterfaceForLongCommand 
     {
-        int counter = 0;
+        public int Id { get; }
+        public int Counter;
+        public List<DateTime> Times { get; } = new List<DateTime>();
+        public bool Completed => Counter >= 3;
+        public TestCommand(int id) => Id = id;
 
         public void Execute()
         {
-            Console.WriteLine($"Поток {id} вызов {++counter}");
+            Times.Add(DateTime.Now);
+            Counter++;
+            Console.WriteLine($"Команда {Id} выполняется (раз: {Counter})");
         }
 
-        public bool Completed()
-        {
-            return counter >= 3;
-        }
+        bool ICommand.Completed() => Completed;
     }
 
     public class ServerThread
