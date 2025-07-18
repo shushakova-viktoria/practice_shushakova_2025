@@ -1,7 +1,7 @@
 using Xunit;
 using task17;
 
-namespace task18tests
+namespace task19tests
 {
     public class task19tests
     {
@@ -12,24 +12,29 @@ namespace task18tests
             var thread = new ServerThread(scheduler);
             int commands = 5;
 
-            thread.Start();
-
             for (int i = 0; i < commands; i++)
             {
                 scheduler.Add(new TestCommand(i));
             }
-            int tryings = 0;
 
-            while (scheduler.commands.Count > 0)
+            thread.Start();
+
+            int maxDoings = 100;
+            int doings = 0;
+            while (scheduler.commands.Count > 0 && doings++ < maxDoings)
             {
                 Thread.Sleep(100);
-                tryings++;
             }
 
             thread.HardStop();
             thread.thread.Join();
 
             Assert.False(thread.thread.IsAlive);
+
+            foreach (var cmd in scheduler.commands.OfType<TestCommand>())
+            {
+                Assert.True(cmd.Completed);
+            }
         }
     }
 }
