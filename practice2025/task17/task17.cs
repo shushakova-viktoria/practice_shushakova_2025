@@ -72,6 +72,24 @@ namespace task17
         void Execute();
     }
 
+    public class TestCommand : ICommand
+    {
+        public int Id { get; }
+        public int Counter { get; set; }
+        public List<DateTime> Times { get; } = new List<DateTime>();
+
+        public TestCommand(int id)
+        {
+            Id = id;
+        }
+
+        public void Execute()
+        {
+            Times.Add(DateTime.Now);
+            Counter++;
+        }
+    }
+
     public class ServerThread
     {
         public IScheduler Scheduler = new Scheduler();
